@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Aplicar imagen PNG</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+		}
+
+		img {
+			max-width: 100%;
+			margin: 20px 0;
+		}
+
+		input[type="file"] {
+			margin: 20px 0;
+		}
+
+		button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #3E8E41;
+		}
+	</style>
+</head>
+<body>
+	<h1>Aplicar imagen PNG</h1>
+
+	<input type="file" id="fileInput">
+	<button id="applyButton">Aplicar imagen PNG</button>
+
+	<div id="imageContainer"></div>
+
+	<script>
+		// Obtenemos los elementos del DOM
+		const fileInput = document.getElementById('fileInput');
+		const applyButton = document.getElementById('applyButton');
+		const imageContainer = document.getElementById('imageContainer');
+
+		// Creamos un objeto Image para cargar la imagen PNG
+		const pngImage = new Image();
+		pngImage.src = 'ruta/de/la/imagen.png';
+
+		// Escuchamos el evento 'change' del input de tipo archivo
+		fileInput.addEventListener('change', () => {
+			// Obtenemos la imagen seleccionada por el usuario
+			const selectedImage = fileInput.files[0];
+
+			// Creamos un objeto FileReader para leer la imagen
+			const reader = new FileReader();
+			reader.readAsDataURL(selectedImage);
+
+			// Escuchamos el evento 'load' del FileReader
+			reader.addEventListener('load', () => {
+				// Creamos un objeto Image para mostrar la imagen seleccionada
+				const image = new Image();
+				image.src = reader.result;
+
+				// Vaciamos el contenedor de imágenes y mostramos la imagen seleccionada
+				imageContainer.innerHTML = '';
+				imageContainer.appendChild(image);
+			});
+		});
+
+		// Escuchamos el evento 'click' del botón 'Aplicar imagen PNG'
+		applyButton.addEventListener('click', () => {
+			// Creamos un canvas para manipular las imágenes
+			const canvas = document.createElement('canvas');
+			const context = canvas.getContext('2d');
+
+			// Ajustamos el tamaño del canvas al de la imagen seleccionada
+			canvas.width = pngImage.width;
+			canvas.height = pngImage.height;
+
+			// Dibujamos la imagen PNG en el canvas
+			context.drawImage(pngImage, 0, 0);
+
+			// Obtenemos la imagen seleccionada y la dibujamos encima de la imagen PNG
+			const selectedImage = imageContainer.querySelector('img');
+			context.drawImage(selectedImage, 0, 0);
+
+			// Creamos un objeto Image para mostrar el resultado
+			const resultImage = new Image();
+			resultImage.src = canvas.toDataURL();
+
+			// Vaciamos el contenedor de imágenes y mostramos el resultado
+			imageContainer.innerHTML = '';
+			imageContainer.appendChild(resultImage);
+		});
+	</script>
+</body>
+</html
