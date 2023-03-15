@@ -35,7 +35,7 @@
 	<h1>Aplicar imagen PNG</h1>
 
 	<input type="file" id="fileInput">
-	<button id="applyButton">Aplicar imagen PNG</button>
+	<button id="applyButton">Aplicar imagen PNG2</button>
 
 	<div id="imageContainer"></div>
 
@@ -72,22 +72,29 @@
 
 		// Escuchamos el evento 'click' del botón 'Aplicar imagen PNG'
 		applyButton.addEventListener('click', () => {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  canvas.width = pngImage.width;
-  canvas.height = pngImage.height;
-  
-  // Dibujamos primero la imagen en formato PNG y luego la imagen subida por el usuario
-  context.drawImage(pngImage, 0, 0);
-  const selectedImage = imageContainer.querySelector('img');
-  context.drawImage(selectedImage, 0, 0);
-  
-  const resultImage = new Image();
-  resultImage.src = canvas.toDataURL();
-  imageContainer.innerHTML = '';
-  imageContainer.appendChild(resultImage);
-});
+			// Creamos un canvas para manipular las imágenes
+			const canvas = document.createElement('canvas');
+			const context = canvas.getContext('2d');
 
+			// Ajustamos el tamaño del canvas al de la imagen seleccionada
+			canvas.width = pngImage.width;
+			canvas.height = pngImage.height;
+
+			// Obtenemos la imagen seleccionada y la dibujamos encima de la imagen PNG
+			const selectedImage = imageContainer.querySelector('img');
+			context.drawImage(selectedImage, 0, 0);
+
+			// Dibujamos la imagen PNG en el canvas
+			context.drawImage(pngImage, 0, 0);
+			
+			// Creamos un objeto Image para mostrar el resultado
+			const resultImage = new Image();
+			resultImage.src = canvas.toDataURL();
+
+			// Vaciamos el contenedor de imágenes y mostramos el resultado
+			imageContainer.innerHTML = '';
+			imageContainer.appendChild(resultImage);
+		});
 	</script>
 </body>
 </html
